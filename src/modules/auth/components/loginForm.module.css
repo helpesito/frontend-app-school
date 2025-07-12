@@ -1,0 +1,78 @@
+*{
+  font-size: 18px;
+}
+
+.formLogin{
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+}
+
+.emailForm{
+  width: 100%;
+  height: 45px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 7px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+.passwordForm{
+  width: 100%;
+  height: 45px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 7px;
+  border: 1px solid #ccc;
+  flex: 1;
+  padding-right: 2.5rem;
+}
+
+.buttonForm{
+  width: 70%;
+  padding: 10px;
+  background-color: #3F7BA0;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  margin: 10px 0 10px 0;
+  align-self: center;
+}
+
+.buttonForm:hover{
+  background-color: #2c5d7a;
+  cursor: pointer;
+  
+}
+.buttonForm:active{
+  background-color: #1f3f54;
+}
+
+.textForm{
+  text-align: center;
+  font-size: 14px;
+  color: #3F7BA0;
+  margin-top: 10px;
+}
+.textForm:hover{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.passwordContainer{
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.togglePassword{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 0.5rem;
+
+  top: 50%;
+  transform: translateY(-70%);
+}
