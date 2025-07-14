@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import Style from './loginForm.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from '../../../hooks/useForm'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../services/authServices' // Assuming you have an API function for login
+import { loginPost } from '../services/authServices' // Assuming you have an API function for login
+import { useAuth } from '../context/useAuth'
 
 export const LoginForm = () => {
 
@@ -19,14 +20,17 @@ export const LoginForm = () => {
     setShowPassword(!showPassword)
   }
 
+  const { login } = useAuth() // Assuming you have a context for authentication
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('Form submitted:', formState)
     try {
-      const data = await login(formState.email, formState.password)
+      const data = await loginPost(formState.email, formState.password)
       console.log('Login successful:', data)
-      resetForm() // Reset the form after successful login
+      login(data) // Call the login function from context with user data
       navigate('/dashboard') // Redirect to the dashboard or another page
+      resetForm() // Reset the form after successful login
     } catch (error) {
       console.error('Error during login:', error)
       resetForm() // Reset the form in case of an error
@@ -35,8 +39,18 @@ export const LoginForm = () => {
     }
     // Aquí podrías agregar la lógica para manejar el inicio de sesión
   }
+
+  const { user } = useAuth() // Get user from context
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard') // Redirect to dashboard if user is already logged in
+    }// Redirect to login if no user is found
+  }, [user, navigate])
   
   return (
+    <>
+      <h2 className={Style.titleForm}>Iniciar Sesión</h2>
     <form className={Style.formLogin} onSubmit={handleSubmit}>
       <div>
         <input 
@@ -75,6 +89,6 @@ export const LoginForm = () => {
 
       <p className={Style.textLema}>“EDUCACIÓN ORGANIZADA, FUTURO ASEGURADO”</p>
     </form>
-    
+  </>
   )
 }
