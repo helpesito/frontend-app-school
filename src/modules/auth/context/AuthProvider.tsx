@@ -1,22 +1,38 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import type { AuthContextType } from './AuthContextType'
 import type { User  } from '../components/userType'
 import { AuthContext } from './AuthContext'
 import type { LoginFormState } from '../components/loginType'
-import { loginPost, logoutPost } from '../services/authServices'
+import { loginPost, logoutPost, verifySession } from '../services/authServices'
 
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user')
-    if(storedUser) {
-      setUser(JSON.parse(storedUser))
+
+    const checkSession = async () => {
+      try {
+        const res = await verifySession()
+        console.log('Session verified:', res)
+        setUser(res.user)
+        localStorage.setItem('user', JSON.stringify(res)) // Store user data in localStorage
+      } catch (error) {
+        console.error('Error verifying session:', error)
+        setUser(null)
+        localStorage.removeItem('user') // Clear user data if session verification fails
+        navigate('/login') // Redirect to login if session verification fails
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [])
+
+    checkSession()
+  }, [navigate, location.pathname])
 
   const login = async (LoginData: LoginFormState) => {
     try {

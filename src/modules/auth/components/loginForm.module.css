@@ -40,6 +40,18 @@
   align-self: center;
 }
 
+.BackButton{
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+  text-decoration: none;
+  color: #3F7BA0;
+  font-size: 16px;
+  font-weight: bold;
+  align-self: center;
+  gap: 5px;
+}
+
 .buttonForm:hover{
   background-color: #2c5d7a;
   cursor: pointer;

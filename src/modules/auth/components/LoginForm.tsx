@@ -38,18 +38,17 @@ export const LoginForm = () => {
   const { user } = useAuth() // Get user from context
 
   useEffect(() => {
-    if (user) {
-      navigate('/dashboard') // Redirect to dashboard if user is already logged in
-    }// Redirect to login if no user is found
+    if (!user) {
+      navigate('/login') // Redirect to login if no user is found
+    }
   }, [user, navigate])
   
   return (
     <>
-      <h2 className={Style.titleForm}>Iniciar Sesión</h2>
     <form className={Style.formLogin} onSubmit={handleSubmit}>
       <div>
         <input 
-          type="text" 
+          type="email" 
           name="email"
           value={email}
           onChange={onInputChange}
@@ -67,7 +66,7 @@ export const LoginForm = () => {
           onChange={onInputChange}
           placeholder="Contraseña" 
           className={Style.passwordForm} 
-          autoComplete="current-password"
+          autoComplete="off"
           required 
         />
         <button 

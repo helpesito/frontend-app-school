@@ -25,3 +25,15 @@ export const logoutPost = async () => {
   }
   return await response.json()
 }
+
+  export const verifySession = async () => {
+    const response = await fetch('http://localhost:3000/auth/check', {
+      method: 'GET',
+      credentials: 'include'
+    })
+
+    if (!response.ok) {
+      throw new Error('Session verification failed')
+    }
+    return await response.json()
+  }

@@ -3,18 +3,22 @@ import { LoginPage } from './auth/components/LoginPage'
 import { RecuperatePage } from './auth/components/RecuperatePage'
 import { Dashboard } from './dashboard/components/Dashboard'
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 
 export const App = () => {
 
   const navigate = useNavigate()
+  const location = useLocation()
 
-  useEffect(() =>{
+  useEffect(() => {
     const user = localStorage.getItem('user')
-    if (!user) {
-      navigate('/login') // Redirect to login if no user is found
+    const publicRoutes = ['/login', '/recuperate']
+
+    if (!user && !publicRoutes.includes(location.pathname)) {
+      navigate('/login') // Solo redirige si NO es una ruta pública
     }
-  }, [navigate])
+  }, [navigate, location.pathname])
 
   return (
     <div>
